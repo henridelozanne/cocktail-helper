@@ -13,7 +13,8 @@
     "element-ui": "^2.12.0",
     "postcss": "^7.0.18",
     "tailwindcss": "^1.1.2",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-images-loaded": "^1.1.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",

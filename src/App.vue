@@ -38,7 +38,7 @@
     </div>
     <div class="results-ctn flex flex-wrap">
       <span v-if="noResultIsVisible">pas de résultats</span>
-      <app-cocktail v-else v-for="result in mainResult" :mainResult="result" :key="result.strDrink" class="w-64"/>
+      <app-cocktail v-else v-for="result in mainResult" :mainResult="result" :key="result.strDrink" class="cocktail-thumbnail m-4"/>
     </div>
     <div class="letters-ctn">
       <div class="letter" v-for="letter in letters" :key="letter" @click="searchByLetter(letter)">{{ letter | capitalize }}</div>
@@ -271,5 +271,9 @@ body {
 .results-ctn {
   max-height: 720px;
   overflow: scroll;
+}
+
+.cocktail-thumbnail {
+  width: 300px;
 }
 </style>
