@@ -1,41 +1,9 @@
 <template>
   <div>
-    <div class="top-bar">
-      <el-select v-model="ingredient"  placeholder="Ingredients" @change="searchCocktails('i')">
-        <el-option
-          v-for="item in ingredientOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-select v-model="category"  placeholder="Categories" @change="searchCocktails('c')">
-        <el-option
-          v-for="item in categoryOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-select v-model="glass"  placeholder="Glasses" @change="searchCocktails('g')">
-        <el-option
-          v-for="item in glassOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-select v-model="alcoholic"  placeholder="Alcoholic" @change="searchCocktails('a')">
-        <el-option
-          v-for="item in alcoholicOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <button @click="getRandomCocktail" class="text-white">RANDOM</button>
-      <input class="search-bar" placeholder="Search by name" type="text" v-model="searchName" @keyup.enter="searchByName">
-    </div>
+    <app-header class="top-bar"
+                @searchCocktail="searchCocktails"
+                @searchName="searchByName"
+                @getRandomCocktail="getRandomCocktail"></app-header>
     <div class="results-ctn flex flex-wrap">
       <span v-if="noResultIsVisible">pas de résultats</span>
       <app-cocktail v-else v-for="result in mainResult" :mainResult="result" :key="result.strDrink" class="cocktail-thumbnail m-4"/>
@@ -48,26 +16,15 @@
 
 <script>
 import axios from 'axios';
-import { Select, Option } from 'element-ui';
 
 import Cocktail from './components/Cocktail';
+import Header from './components/Header';
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    'el-select': Select,
-    'el-option': Option,
     'app-cocktail': Cocktail,
-  },
-  mounted() {
-    this.fillOptions();
-    axios.get('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?iid=552')
-        .then(response => {
-          console.log({ response })
-        })
-        .catch(err => {
-          console.error(err)
-        })
+    'app-header': Header,
   },
   filters: {
     capitalize: function (value) {
@@ -87,53 +44,11 @@ export default {
           console.error(err)
         })
     },
-    fillOptions() {
-      const options = ['i', 'c', 'g', 'a'];
-      options.forEach((option) => {
-        axios.get(`https://www.thecocktaildb.com/api/json/v1/1/list.php?${option}=list`)
-          .then(response => {
-            if (option === 'i') {
-              response.data.drinks.forEach((ingredient) => {
-                this.ingredientOptions.push({
-                  value: ingredient.strIngredient1,
-                  label: ingredient.strIngredient1,
-                })
-              });
-            } else if (option === 'c') {
-              response.data.drinks.forEach((category) => {
-                this.categoryOptions.push({
-                  value: category.strCategory,
-                  label: category.strCategory,
-                })
-              });
-            } else if (option === 'g') {
-              response.data.drinks.forEach((glass) => {
-                this.glassOptions.push({
-                  value: glass.strGlass,
-                  label: glass.strGlass,
-                })
-              });
-            } else if (option === 'a') {
-              response.data.drinks.forEach((alcoholic) => {
-                this.alcoholicOptions.push({
-                  value: alcoholic.strAlcoholic,
-                  label: alcoholic.strAlcoholic,
-                })
-              });
-            }
-          })
-          .catch(err => {
-            // eslint-disable-next-line no-console
-            console.error(err);
-          })
-      });
-    },
-    searchByName() {
+    searchByName(name) {
       // Reset
       this.mainResult = [];
-      axios.get(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${this.searchName}`)
+      axios.get(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`)
         .then(response => {
-          console.log({ response })
           if (response.data.drinks !== null) {
             this.noResultIsVisible = false;
             this.searchMoreDetails(response);
@@ -169,32 +84,10 @@ export default {
           console.error(err)
         })
     },
-    searchCocktails(type) {
+    searchCocktails(payload) {
       // Reset
       this.mainResult = [];
-      let source;
-      if (type === 'i') {
-        source = this.ingredient;
-        this.alcoholic = '';
-        this.category = '';
-        this.glass = '';
-      } else if (type === 'c') {
-        source = this.category;
-        this.alcoholic = '';
-        this.ingredient = '';
-        this.glass = '';
-      } else if (type === 'g') {
-        source = this.glass;
-        this.alcoholic = '';
-        this.category = '';
-        this.ingredient = '';
-      } else if (type === 'a') {
-        source = this.alcoholic;
-        this.ingredient = '';
-        this.category = '';
-        this.glass = '';
-      }
-      axios.get(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?${type}=${source}`)
+      axios.get(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?${payload.type}=${payload.filter}`)
         .then(response => {
           if (response.data.drinks !== null) {
             this.noResultIsVisible = false;
@@ -208,21 +101,12 @@ export default {
   },
   data() {
     return {
-      alcoholic: '',
-      alcoholicOptions: [],
-      category: '',
-      categoryOptions: [],
-      glass: '',
-      glassOptions: [],
-      ingredient: '',
-      ingredientOptions: [],
       letters: [
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
         'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
       ],
       mainResult: [],
       noResultIsVisible: false,
-      searchName: undefined,
     };
   },
 }
@@ -259,6 +143,7 @@ body {
 .top-bar {
   display: flex;
   justify-content: space-around;
+  height: 80px
 }
 
 .letters-ctn {
