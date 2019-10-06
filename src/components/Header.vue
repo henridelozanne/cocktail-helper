@@ -70,9 +70,6 @@ export default {
     };
   },
   methods: {
-    callGetRandomCocktail() {
-      this.$emit('getRandomCocktail');
-    },
     callSearchCocktails(type) {
       let filter;
       if (type === 'i') {

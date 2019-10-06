@@ -2,14 +2,17 @@
   <div>
     <app-header class="top-bar"
                 @searchCocktail="searchCocktails"
-                @searchName="searchByName"
-                @getRandomCocktail="getRandomCocktail"></app-header>
+                @searchName="searchByName" />
     <div class="results-ctn flex flex-wrap">
       <span v-if="noResultIsVisible">pas de résultats</span>
-      <app-cocktail v-else v-for="result in mainResult" :mainResult="result" :key="result.strDrink" class="cocktail-thumbnail m-4"/>
+      <app-cocktail v-else v-for="result in mainResult" ref="cocktail-item" :mainResult="result" :key="result.strDrink" class="cocktail-thumbnail m-4" @openSidePanel="openSidePanel"/>
     </div>
     <div class="letters-ctn">
       <div class="letter" v-for="letter in letters" :key="letter" @click="searchByLetter(letter)">{{ letter | capitalize }}</div>
+    </div>
+    <div v-if="sidePanelIsVisible" class="side-panel bg-white">
+      {{ sidePanelContent }}
+      <button @click="sidePanelIsVisible = false">CLOSE</button>
     </div>
   </div>
 </template>
@@ -32,17 +35,22 @@ export default {
       return value.toUpperCase()
     },
   },
+  data() {
+    return {
+      letters: [
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+        'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+      ],
+      mainResult: [],
+      noResultIsVisible: false,
+      sidePanelIsVisible: false,
+      sidePanelContent: '',
+    };
+  },
   methods: {
-    getRandomCocktail() {
-      axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php')
-        .then(response => {
-          this.mainResult = [];
-          this.noResultIsVisible = false;
-          this.searchMoreDetails(response);
-        })
-        .catch(err => {
-          console.error(err)
-        })
+    openSidePanel(payload) {
+      this.sidePanelContent = payload.strDescription
+      this.sidePanelIsVisible = true;
     },
     searchByName(name) {
       // Reset
@@ -99,16 +107,6 @@ export default {
         })
     },
   },
-  data() {
-    return {
-      letters: [
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-        'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-      ],
-      mainResult: [],
-      noResultIsVisible: false,
-    };
-  },
 }
 </script>
 
@@ -161,5 +159,16 @@ body {
 
 .cocktail-thumbnail {
   width: 300px;
+}
+
+.side-panel {
+  width: 500px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  overflow: scroll;
+  padding: 30px;
+  text-align: justify;
 }
 </style>

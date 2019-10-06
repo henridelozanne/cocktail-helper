@@ -5,29 +5,48 @@
       </div>
     </div>
     <div v-images-loaded:on.progress="imageProgress">
-      <img :src="mainResult.strDrinkThumb" alt="" class="rounded-t" :class="{ 'img-hovered': hovered }">
+      <img :src="mainResult.strDrinkThumb" alt="" class="rounded-t" :class="{ 'img-hovered': hovered }"
+       @click="launchCocktailModal">
     </div>
     <h1 class="cocktail-title font-bold text-white bg-gray-800 p-3 rounded-b"
-        :class="{ 'text-hovered': hovered }">{{ mainResult.strDrink }}</h1>
-    <!-- <div class="border bg-gray-400">
-      <h2 class="text-red-700">Ingredients : </h2>
-      <span v-if="showIngredientDetails">{{ ingredientDetails }}</span>
-      <ul class="text-teal-600">
-        <li v-for="(ingredient, i) in ingredients" :key="`${i}-${ingredient.name}`" @click="searchIngredientDetails(ingredient)">{{ ingredient.name }}<span class="text-gray-500 italic">({{ ingredient.dose }})</span></li>
-      </ul>
-      <span class="text-red-700 block">Glass : <span class="text-teal-600">{{ mainResult.more.strGlass}}</span></span>
-      <span class="text-red-700">Instructions :</span>
-      <ul>
-        <li v-for="instruction in instructions" :key="instruction" class="my-5">{{ instruction }}</li>
-      </ul>
-    </div> -->
+        :class="{ 'text-hovered': hovered }"
+        @click="launchCocktailModal">
+        {{ mainResult.strDrink }}
+    </h1>
+    <el-dialog :visible.sync="showDetails"
+               @close="hideModal">
+        <div class="border bg-gray-400">
+          <img :src="mainResult.strDrinkThumb" alt="" class="rounded-t">
+          <h1 class="cocktail-title font-bold text-white bg-gray-800 p-3 rounded-b">
+            {{ mainResult.strDrink }}
+          </h1>
+          <h2 class="text-red-700">Ingredients : </h2>
+          <span>{{ ingredientDetails }}</span>
+          <ul class="text-teal-600">
+            <li v-for="(ingredient, i) in ingredients" :key="`${i}-${ingredient.name}`" @click="searchIngredientDetails(ingredient.name)">{{ ingredient.name }}<span class="text-gray-500 italic">({{ ingredient.dose }})</span></li>
+          </ul>
+          <span class="text-red-700 block">Glass : <span class="text-teal-600">{{ mainResult.more.strGlass}}</span></span>
+          <span class="text-red-700">Instructions :</span>
+          <ul>
+            <li v-for="instruction in instructions" :key="instruction" class="my-5">{{ instruction }}</li>
+          </ul>
+      </div>
+      <span slot="footer">
+        <el-button @click="showDetails = false">
+          Close
+        </el-button>
+      </span>
+
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import imagesLoaded from 'vue-images-loaded';
+import { Button, Dialog } from 'element-ui';
 
+const ingredientsMapping = require('../assets/ingredientsMapping');
 
 export default {
   name: 'Cocktail',
@@ -36,6 +55,10 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  components: {
+    'el-button': Button,
+    'el-dialog': Dialog,
   },
   directives: {
       imagesLoaded
@@ -46,21 +69,26 @@ export default {
       ingredients: [],
       instructions: [],
       ingredientDetails: undefined,
-      showIngredientDetails: false,
+      showDetails: false,
       imageIsLoading: true,
     };
   },
   mounted() {
     this.processIngredients();
     this.processInstructions();
-    // console.log(this.ingredients);
   },
   methods: {
+    hideModal() {
+      this.showDetails = false;
+    },
     imageProgress(instance, image ) {
       // keep instance in arguments
       if (image.isLoaded) {
         this.imageIsLoading = false;
       }
+    },
+    launchCocktailModal() {
+      this.showDetails = true;
     },
     switchHover(payload) {
       this.hovered = payload;
@@ -77,14 +105,21 @@ export default {
     processInstructions() {
       this.instructions = this.mainResult.more.strInstructions.split('. ');
     },
-    searchIngredientDetails(ingredient) {
-      axios.get('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?iid=552')
-        .then(response => {
-          console.log({ response })
-        })
-        .catch(err => {
-          console.error(err)
-        })
+    searchIngredientDetails(ingredientName) {
+      ingredientsMapping.some((ingredient) => {
+        if (ingredient.name === ingredientName) {
+          axios.get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?iid=${ingredient.id}`)
+          .then(response => {
+            if (response.data.ingredients[0].strDescription) {
+              this.$emit('openSidePanel', response.data.ingredients[0]);
+            }
+            return;
+          })
+          .catch(err => {
+            console.error(err)
+          })
+        }
+      });
     },
   },
 }
