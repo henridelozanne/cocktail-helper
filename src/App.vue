@@ -115,6 +115,7 @@ export default {
 <style>
 body {
   background: rgb(19, 19, 19);
+  background-image: linear-gradient(to right, rgb(19, 19, 19) 0%, rgb(34, 32, 32) 100%);
 }
 
 .letter {
