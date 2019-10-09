@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+#letter-1 {
+  stroke-dasharray: 431px;
+  stroke-dashoffset: 431px;
+  -webkit-animation: line-anim 2s ease forwards;
+          animation: line-anim 2s ease forwards;
+}
+
+#letter-2 {
+  stroke-dasharray: 529px;
+  stroke-dashoffset: 529px;
+  -webkit-animation: line-anim 2s ease forwards;
+          animation: line-anim 2s ease forwards;
+}
+
+#letter-3 {
+  stroke-dasharray: 431px;
+  stroke-dashoffset: 431px;
+  -webkit-animation: line-anim 2s ease forwards;
+          animation: line-anim 2s ease forwards;
+}
+
+#letter-4 {
+  stroke-dasharray: 513px;
+  stroke-dashoffset: 513px;
+  -webkit-animation: line-anim 2s ease forwards;
+          animation: line-anim 2s ease forwards;
+}
+
+#letter-5 {
+  stroke-dasharray: 363px;
+  stroke-dashoffset: 363px;
+  -webkit-animation: line-anim 2s ease forwards;
+          animation: line-anim 2s ease forwards;
+}
+
+#letter-6 {
+  stroke-dasharray: 512px;
+  stroke-dashoffset: 512px;
+  -webkit-animation: line-anim 2s ease forwards;
+          animation: line-anim 2s ease forwards;
+}
+
+#letter-7 {
+  stroke-dasharray: 242px;
+  stroke-dashoffset: 242px;
+  -webkit-animation: line-anim 2s ease forwards;
+          animation: line-anim 2s ease forwards;
+}
+
+#letter-8 {
+  stroke-dasharray: 343px;
+  stroke-dashoffset: 343px;
+  -webkit-animation: line-anim 2s ease forwards;
+          animation: line-anim 2s ease forwards;
+}
+
+#letter-9 {
+  stroke-dasharray: 242px;
+  stroke-dashoffset: 242px;
+  -webkit-animation: line-anim 2s ease forwards;
+          animation: line-anim 2s ease forwards;
+}
+
+#letter-10 {
+  stroke-dasharray: 529px;
+  stroke-dashoffset: 529px;
+  -webkit-animation: line-anim 2s ease forwards;
+          animation: line-anim 2s ease forwards;
+}
+
+@-webkit-keyframes line-anim {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes line-anim {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+/*# sourceMappingURL=style.css.map */

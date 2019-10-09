@@ -1,7 +1,6 @@
-import Vue from 'vue'
-import App from './App.vue'
-import './assets/styles/main.css'
-import './assets/styles/converted.css'
+import Vue from 'vue';
+import App from './App.vue';
+import './assets/styles/style.css';
 
 Vue.config.productionTip = false
 
