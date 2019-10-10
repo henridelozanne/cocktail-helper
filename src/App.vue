@@ -5,14 +5,10 @@
                 @searchName="searchByName" />
     <div class="results-ctn flex flex-wrap">
       <span v-if="noResultIsVisible">pas de résultats</span>
-      <app-cocktail v-else v-for="result in mainResult" ref="cocktail-item" :mainResult="result" :key="result.strDrink" class="cocktail-thumbnail m-4" @openSidePanel="openSidePanel"/>
+      <app-cocktail v-else v-for="result in mainResult" ref="cocktail-item" :mainResult="result" :key="result.strDrink" class="cocktail-thumbnail m-4"/>
     </div>
     <div class="letters-ctn">
       <div class="letter" v-for="letter in letters" :key="letter" @click="searchByLetter(letter)">{{ letter | capitalize }}</div>
-    </div>
-    <div v-if="sidePanelIsVisible" class="side-panel bg-white">
-      {{ sidePanelContent }}
-      <button @click="sidePanelIsVisible = false">CLOSE</button>
     </div>
   </div>
 </template>
@@ -43,15 +39,9 @@ export default {
       ],
       mainResult: [],
       noResultIsVisible: false,
-      sidePanelIsVisible: false,
-      sidePanelContent: '',
     };
   },
   methods: {
-    openSidePanel(payload) {
-      this.sidePanelContent = payload.strDescription
-      this.sidePanelIsVisible = true;
-    },
     searchByName(name) {
       // Reset
       this.mainResult = [];
@@ -159,16 +149,5 @@ body {
 
 .cocktail-thumbnail {
   width: 300px;
-}
-
-.side-panel {
-  width: 500px;
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  overflow: scroll;
-  padding: 30px;
-  text-align: justify;
 }
 </style>

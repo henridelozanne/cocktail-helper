@@ -23,7 +23,7 @@
           <h2 class="text-red-700">Ingredients : </h2>
           <span>{{ ingredientDetails }}</span>
           <ul class="text-teal-600">
-            <li v-for="(ingredient, i) in ingredients" :key="`${i}-${ingredient.name}`" @click="searchIngredientDetails(ingredient.name)">{{ ingredient.name }}<span class="text-gray-500 italic">({{ ingredient.dose }})</span></li>
+            <li v-for="(ingredient, i) in ingredients" :key="`${i}-${ingredient.name}`">{{ ingredient.name }}<span class="text-gray-500 italic">({{ ingredient.dose }})</span></li>
           </ul>
           <span class="text-red-700 block">Glass : <span class="text-teal-600">{{ mainResult.more.strGlass}}</span></span>
           <span class="text-red-700">Instructions :</span>
@@ -42,11 +42,8 @@
 </template>
 
 <script>
-import axios from 'axios';
 import imagesLoaded from 'vue-images-loaded';
 import { Button, Dialog } from 'element-ui';
-
-const ingredientsMapping = require('../assets/ingredientsMapping');
 
 export default {
   name: 'Cocktail',
@@ -104,22 +101,6 @@ export default {
     },
     processInstructions() {
       this.instructions = this.mainResult.more.strInstructions.split('. ');
-    },
-    searchIngredientDetails(ingredientName) {
-      ingredientsMapping.some((ingredient) => {
-        if (ingredient.name === ingredientName) {
-          axios.get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?iid=${ingredient.id}`)
-          .then(response => {
-            if (response.data.ingredients[0].strDescription) {
-              this.$emit('openSidePanel', response.data.ingredients[0]);
-            }
-            return;
-          })
-          .catch(err => {
-            console.error(err)
-          })
-        }
-      });
     },
   },
 }

@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.logo {
+  padding: 0 16px;
+}
+
 #letter-1 {
   stroke-dasharray: 431px;
   stroke-dashoffset: 431px;
