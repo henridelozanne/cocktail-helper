@@ -116,10 +116,12 @@ export default {
               });
             } else if (option === 'c') {
               response.data.drinks.forEach((category) => {
-                this.categoryOptions.push({
-                  value: category.strCategory,
-                  label: category.strCategory,
-                })
+                if (category.strCategory !== 'Cocoa') {
+                    this.categoryOptions.push({
+                    value: category.strCategory,
+                    label: category.strCategory,
+                  })
+                }
               });
             } else if (option === 'g') {
               response.data.drinks.forEach((glass) => {
