@@ -31,6 +31,9 @@ export default {
       return value.toUpperCase()
     },
   },
+  mounted() {
+    this.searchByLetter('a');
+  },
   data() {
     return {
       letters: [
