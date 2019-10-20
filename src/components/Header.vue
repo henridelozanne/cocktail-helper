@@ -149,6 +149,21 @@ export default {
 }
 </script>
 
+<style>
+.el-select .el-input__inner {
+  background: rgb(53, 52, 52);
+  border: unset;
+}
+
+.el-select input {
+  height: 24px !important;
+}
+
+.el-select__caret {
+  line-height: 24px;
+}
+</style>
+
 <style scoped>
 .selects {
   max-width: 550px;
@@ -159,10 +174,14 @@ export default {
 }
 
 .selects .ingredient-select {
-  margin-right: 40px;
+  margin-right: 10px;
 }
 
 .selects .glass-select {
-  margin-right: 40px;  
+  margin-right: 10px;  
+}
+
+.search-bar {
+  border-radius: 5px;
 }
 </style>
