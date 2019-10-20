@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-title></app-title>
+    <app-title class="app-title"></app-title>
     <div class="selects">
       <el-select :automatic-dropdown="true" v-model="ingredient" class="ingredient-select" placeholder="Ingredients" @change="callSearchCocktails('i')">
         <el-option
@@ -161,6 +161,10 @@ export default {
 
 .el-select__caret {
   line-height: 24px;
+}
+
+.app-title {
+  height: 100%;
 }
 </style>
 

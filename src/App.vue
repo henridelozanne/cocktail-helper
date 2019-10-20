@@ -135,6 +135,7 @@ body {
 .top-bar {
   display: flex;
   justify-content: space-around;
+  align-items: center;
   height: 80px
 }
 
@@ -148,6 +149,7 @@ body {
 .results-ctn {
   max-height: 720px;
   overflow: scroll;
+  background:rgb(34, 32, 32);
 }
 
 .cocktail-thumbnail {
