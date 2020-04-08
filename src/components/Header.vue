@@ -43,7 +43,7 @@
 import { Select, Option } from 'element-ui';
 import axios from 'axios';
 
-import Title from './Title.vue';
+import Title from './WebsiteTitle.vue';
 
 export default {
   name: 'Header',
@@ -151,7 +151,7 @@ export default {
 
 <style>
 .el-select .el-input__inner {
-  background: rgb(53, 52, 52);
+  background: rgb(150, 159, 158);
   border: unset;
 }
 

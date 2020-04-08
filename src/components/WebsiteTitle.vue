@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: 'Title',
+  name: 'WebsiteTitle',
 }
 </script>
 
