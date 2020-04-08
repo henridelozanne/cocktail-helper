@@ -49,8 +49,6 @@ export default {
 
 <style>
 .footer {
-  position: fixed;
-  bottom: 0;
   display: flex;
   justify-content: center;
   padding: 20px 0;

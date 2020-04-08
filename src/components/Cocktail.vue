@@ -5,10 +5,10 @@
       </div>
     </div>
     <div v-images-loaded:on.progress="imageProgress">
-      <img :src="mainResult.strDrinkThumb" alt="" class="rounded-t" :class="{ 'img-hovered': hovered }"
+      <img :src="mainResult.strDrinkThumb" alt="" :class="{ 'img-hovered': hovered }"
        @click="launchCocktailModal">
     </div>
-    <h1 class="cocktail-title font-bold text-white bg-gray-800 p-3 rounded-b"
+    <h1 class="cocktail-title font-bold text-white bg-gray-800 p-3"
         :class="{ 'text-hovered': hovered }"
         @click="launchCocktailModal">
         {{ mainResult.strDrink }}
@@ -16,8 +16,8 @@
     <el-dialog :visible.sync="showDetails"
                @close="hideModal">
         <div class="border bg-gray-400">
-          <img :src="mainResult.strDrinkThumb" alt="" class="rounded-t">
-          <h1 class="cocktail-title font-bold text-white bg-gray-800 p-3 rounded-b">
+          <img :src="mainResult.strDrinkThumb" alt="">
+          <h1 class="cocktail-title font-bold text-white bg-gray-800 p-3">
             {{ mainResult.strDrink }}
           </h1>
           <h2 class="text-red-700">Ingredients : </h2>
@@ -36,7 +36,6 @@
           Close
         </el-button>
       </span>
-
     </el-dialog>
   </div>
 </template>
@@ -123,6 +122,11 @@ export default {
 
 .cocktail-container {
   cursor: pointer;
+  width: 300px;
+  margin: 20px;
+  box-shadow: 2px 5px 7px rgba(0, 0, 0, .5);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 h1 {
@@ -138,7 +142,7 @@ h1 {
   justify-content: center;
   align-items: center;
   background: rgb(22,22,22);
-background: linear-gradient(342deg, rgba(22,22,22,1) 0%, rgba(112,112,108,1) 100%);
+  background: linear-gradient(342deg, rgba(22,22,22,1) 0%, rgba(112,112,108,1) 100%);
 }
 
 .loader,
