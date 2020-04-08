@@ -47,7 +47,7 @@ import axios from 'axios';
 import Title from './WebsiteTitle.vue';
 
 export default {
-  name: 'Header',
+  name: 'Navbar',
   props: {},
   components: {
     'el-select': Select,

@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper">
-    <app-header class="top-bar"
+    <app-navbar class="top-bar"
                 @searchCocktail="searchCocktails"
                 @searchName="searchByName" />
     <div class="results-ctn">
@@ -18,7 +18,7 @@
 import axios from 'axios';
 
 import Cocktail from './components/Cocktail';
-import Header from './components/Header';
+import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import NoResult from './components/NoResult';
 
@@ -26,7 +26,7 @@ export default {
   name: 'App',
   components: {
     'app-cocktail': Cocktail,
-    'app-header': Header,
+    'app-navbar': Navbar,
     'app-footer': Footer,
     'app-no-result': NoResult,
   },
