@@ -2,7 +2,7 @@
   <div>
     <app-title class="app-title"></app-title>
     <div class="selects">
-      <el-select :automatic-dropdown="true" v-model="ingredient" class="ingredient-select" placeholder="Ingredients" @change="callSearchCocktails('i')">
+      <el-select v-model="ingredient" class="ingredient-select" placeholder="Ingredients" @change="callSearchCocktails('i')">
         <el-option
           v-for="item in ingredientOptions"
           :key="item.value"
@@ -170,19 +170,14 @@ export default {
 
 <style scoped>
 .selects {
-  max-width: 550px;
+  max-width: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 .selects .el-select {
   margin: 5px 0;
-}
-
-.selects .ingredient-select {
-  margin-right: 10px;
-}
-
-.selects .glass-select {
-  margin-right: 10px;  
 }
 
 .search-bar {
