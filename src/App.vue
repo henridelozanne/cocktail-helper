@@ -7,9 +7,7 @@
       <app-no-result v-if="noResultIsVisible" />
       <app-cocktail v-else v-for="result in mainResult" ref="cocktail-item" :mainResult="result" :key="result.strDrink" class="cocktail-thumbnail m-4"/>
     </div>
-    <div class="letters-ctn">
-      <div class="letter" v-for="letter in letters" :key="letter" @click="searchByLetter(letter)">{{ letter | capitalize }}</div>
-    </div>
+    <app-footer @newLetterSearch="searchByLetter" />
   </div>
 </template>
 
@@ -18,6 +16,7 @@ import axios from 'axios';
 
 import Cocktail from './components/Cocktail';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import NoResult from './components/NoResult';
 
 export default {
@@ -25,23 +24,14 @@ export default {
   components: {
     'app-cocktail': Cocktail,
     'app-header': Header,
+    'app-footer': Footer,
     'app-no-result': NoResult,
-  },
-  filters: {
-    capitalize: function (value) {
-      if (!value) return ''
-      return value.toUpperCase()
-    },
   },
   mounted() {
     this.searchByLetter('a');
   },
   data() {
     return {
-      letters: [
-        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-        'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-      ],
       mainResult: [],
       noResultIsVisible: false,
     };
@@ -106,23 +96,6 @@ export default {
 </script>
 
 <style>
-.letter {
-  border: 1px solid black;
-  background: white;
-  border-radius: 3px;
-  padding: 5px;
-  margin: 0 2px;
-  width: 30px;
-  text-align: center;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.letter:hover {
-  color: white;
-  background: black;
-}
-
 .search-bar {
   border: 1px solid black;
   padding: 10px 15px;
@@ -138,15 +111,6 @@ export default {
   background-blend-mode: multiply;
   box-shadow: 0 5px 5px rgba(0, 0, 0, .8);
   padding: 5px 20px;
-}
-
-.letters-ctn {
-  position: fixed;
-  bottom: 0;
-  text-align: center;
-  padding: 10px 0;
-  width: 100%;
-  background: rgb(23, 23, 23);
 }
 
 .results-ctn {
