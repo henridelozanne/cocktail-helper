@@ -4,7 +4,7 @@
                 @searchCocktail="searchCocktails"
                 @searchName="searchByName" />
     <div class="results-ctn flex flex-wrap">
-      <span v-if="noResultIsVisible">pas de résultats</span>
+      <app-no-result v-if="noResultIsVisible" />
       <app-cocktail v-else v-for="result in mainResult" ref="cocktail-item" :mainResult="result" :key="result.strDrink" class="cocktail-thumbnail m-4"/>
     </div>
     <div class="letters-ctn">
@@ -18,12 +18,14 @@ import axios from 'axios';
 
 import Cocktail from './components/Cocktail';
 import Header from './components/Header';
+import NoResult from './components/NoResult';
 
 export default {
   name: 'App',
   components: {
     'app-cocktail': Cocktail,
     'app-header': Header,
+    'app-no-result': NoResult,
   },
   filters: {
     capitalize: function (value) {
@@ -104,11 +106,6 @@ export default {
 </script>
 
 <style>
-body {
-  background: rgb(19, 19, 19);
-  background-image: linear-gradient(to right, rgb(19, 19, 19) 0%, rgb(34, 32, 32) 100%);
-}
-
 .letter {
   border: 1px solid black;
   background: white;
@@ -136,20 +133,23 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 80px
+  height: 80px;
+  background: linear-gradient(0.05turn, #222222, #3a3a3a);
 }
 
 .letters-ctn {
   position: fixed;
-  bottom: 10px;
+  bottom: 0;
   text-align: center;
+  padding: 10px 0;
   width: 100%;
+  background: rgb(23, 23, 23);
 }
 
 .results-ctn {
   max-height: 720px;
   overflow: scroll;
-  background:rgb(34, 32, 32);
+  background: rgba(203, 245, 252, 0.8);
 }
 
 .cocktail-thumbnail {

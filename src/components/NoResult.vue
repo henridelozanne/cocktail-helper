@@ -1,6 +1,6 @@
 <template>
   <div>
-    no result founds
+    No results, try something else
   </div>
 </template>
 
