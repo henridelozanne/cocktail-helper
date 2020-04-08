@@ -31,6 +31,3 @@ export default {
   name: 'WebsiteTitle',
 }
 </script>
-
-<style>
-</style>

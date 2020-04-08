@@ -134,7 +134,10 @@ export default {
   justify-content: space-around;
   align-items: center;
   height: 80px;
-  background: linear-gradient(0.05turn, #222222, #3a3a3a);
+  background: linear-gradient(to bottom, #323232 0%, #3F3F3F 40%, #1C1C1C 150%), linear-gradient(to top, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.25) 200%);
+  background-blend-mode: multiply;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, .8);
+  padding: 5px 20px;
 }
 
 .letters-ctn {

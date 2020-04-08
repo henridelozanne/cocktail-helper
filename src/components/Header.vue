@@ -36,6 +36,7 @@
       </el-select>
     </div>
     <input class="search-bar" placeholder="Search by name" type="text" v-model="searchName" @keyup.enter="callSearchName">
+    <svg class="menu-burger" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
   </div>
 </template>
 
@@ -151,7 +152,7 @@ export default {
 
 <style>
 .el-select .el-input__inner {
-  background: rgb(150, 159, 158);
+  background: rgb(97, 97, 97);
   border: unset;
 }
 
@@ -178,9 +179,33 @@ export default {
 
 .selects .el-select {
   margin: 5px 0;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, .7);
 }
 
 .search-bar {
   border-radius: 5px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, .7);
+}
+
+.menu-burger {
+  display: none;
+  width: 40px;
+  height: 40px;
+  fill: white;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1023px) {
+    .selects {
+      display: none;
+    }
+
+    .search-bar {
+      display: none;
+    }
+
+    .menu-burger {
+      display: block;
+    }
 }
 </style>
