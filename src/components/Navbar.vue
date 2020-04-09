@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="navbar">
     <app-title class="app-title"></app-title>
     <div class="selects">
       <el-select v-model="ingredient" class="ingredient-select" placeholder="Ingredients" @change="callSearchCocktails('i')">
@@ -170,6 +170,20 @@ export default {
 </style>
 
 <style scoped>
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 80px;
+  background: linear-gradient(to top, rgb(17, 17, 17) 0%, rgb(60, 60, 60) 40%, rgb(17, 17, 17) 150%), linear-gradient(to bottom, rgba(60, 60, 60, 0.4) 0%, rgba(55, 55, 55, 0.25) 200%);
+  background-blend-mode: multiply;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, .5);
+  padding: 5px 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
 .selects {
   max-width: 500px;
   display: flex;

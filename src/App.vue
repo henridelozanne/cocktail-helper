@@ -1,7 +1,6 @@
 <template>
   <div class="app-wrapper">
-    <app-navbar class="top-bar"
-                @searchCocktail="searchCocktails"
+    <app-navbar @searchCocktail="searchCocktails"
                 @searchName="searchByName" />
     <div class="results-ctn">
       <app-no-result v-if="noResultIsVisible" />
@@ -110,23 +109,9 @@ export default {
   min-width: 200px;
 }
 
-.top-bar {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 80px;
-  background: linear-gradient(to bottom, #323232 0%, #3F3F3F 40%, #1C1C1C 150%), linear-gradient(to top, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.25) 200%);
-  background-blend-mode: multiply;
-  box-shadow: 0 3px 7px rgba(0, 0, 0, .5);
-  padding: 5px 20px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
-
 .results-ctn {
-  background: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);
-  background-blend-mode: normal,color-burn;
+  /* background-image: linear-gradient(to right, #6e7880 0%, #404749 100%); */
+  background-image: radial-gradient(circle at 0, #6e7880 0, #404749 100%);
   flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
