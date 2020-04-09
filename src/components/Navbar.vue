@@ -193,13 +193,13 @@ export default {
 
 .selects .el-select {
   margin: 5px 0;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, .7);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, .9);
 }
 
 .search-bar {
   border-radius: 5px;
   background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, .7);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, .9);
 }
 
 .menu-burger {
