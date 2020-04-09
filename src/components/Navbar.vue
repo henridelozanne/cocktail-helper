@@ -175,7 +175,7 @@ export default {
   justify-content: space-around;
   align-items: center;
   height: 80px;
-  background: linear-gradient(to top, rgb(17, 17, 17) 0%, rgb(60, 60, 60) 40%, rgb(17, 17, 17) 150%), linear-gradient(to bottom, rgba(60, 60, 60, 0.4) 0%, rgba(55, 55, 55, 0.25) 200%);
+  background: linear-gradient(to bottom, rgb(38, 38, 38) 0%, rgb(60, 60, 60) 40%, rgb(14, 14, 14) 150%), linear-gradient(to bottom, rgba(60, 60, 60, 0.4) 0%, rgba(55, 55, 55, 0.25) 200%);
   background-blend-mode: multiply;
   box-shadow: 0 3px 7px rgba(0, 0, 0, .5);
   padding: 5px 20px;
