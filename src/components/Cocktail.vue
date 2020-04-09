@@ -15,22 +15,7 @@
     </h1>
     <el-dialog :visible.sync="showDetails"
                @close="hideModal">
-        <div class="border bg-gray-400">
-          <img :src="mainResult.strDrinkThumb" alt="">
-          <h1 class="cocktail-title font-bold text-white bg-gray-800 p-3">
-            {{ mainResult.strDrink }}
-          </h1>
-          <h2 class="text-red-700">Ingredients : </h2>
-          <span>{{ ingredientDetails }}</span>
-          <ul class="text-teal-600">
-            <li v-for="(ingredient, i) in ingredients" :key="`${i}-${ingredient.name}`">{{ ingredient.name }}<span class="text-gray-500 italic">({{ ingredient.dose }})</span></li>
-          </ul>
-          <span class="text-red-700 block">Glass : <span class="text-teal-600">{{ mainResult.more.strGlass}}</span></span>
-          <span class="text-red-700">Instructions :</span>
-          <ul>
-            <li v-for="instruction in instructions" :key="instruction" class="my-5">{{ instruction }}</li>
-          </ul>
-      </div>
+      <cocktail-modal :mainResult="mainResult"/>
       <span slot="footer">
         <el-button @click="showDetails = false">
           Close
@@ -44,6 +29,8 @@
 import imagesLoaded from 'vue-images-loaded';
 import { Button, Dialog } from 'element-ui';
 
+import CocktailModal from './CocktailModal.vue';
+
 export default {
   name: 'Cocktail',
   props: {
@@ -55,6 +42,7 @@ export default {
   components: {
     'el-button': Button,
     'el-dialog': Dialog,
+    'cocktail-modal': CocktailModal,
   },
   directives: {
       imagesLoaded
@@ -62,16 +50,9 @@ export default {
   data() {
     return {
       hovered: false,
-      ingredients: [],
-      instructions: [],
-      ingredientDetails: undefined,
       showDetails: false,
       imageIsLoading: true,
     };
-  },
-  mounted() {
-    this.processIngredients();
-    this.processInstructions();
   },
   methods: {
     hideModal() {
@@ -89,28 +70,11 @@ export default {
     switchHover(payload) {
       this.hovered = payload;
     },
-    processIngredients() {
-      for (let i=1; i<=15; i+=1) {
-        if (this.mainResult.more[`strIngredient${i}`] !== null) {
-          this.ingredients.push({
-            name: this.mainResult.more[`strIngredient${i}`],
-            dose: this.mainResult.more[`strMeasure${i}`]})
-        } else return;
-      }
-    },
-    processInstructions() {
-      this.instructions = this.mainResult.more.strInstructions.split('. ');
-    },
   },
 }
 </script>
 
-<style scoped>
-.cocktail-title {
-  font-family: 'Teko', sans-serif;
-  font-size: 27px;
-}
-
+<style lang="scss" scoped>
 .text-hovered {
   font-size: 30px;
   text-shadow: 1px 2px rgb(216, 109, 146);
@@ -122,8 +86,8 @@ export default {
 
 .cocktail-container {
   cursor: pointer;
-  width: 300px;
-  margin: 20px;
+  width: 250px;
+  margin: 30px;
   box-shadow: 2px 5px 7px rgba(0, 0, 0, .5);
   border-radius: 10px;
   overflow: hidden;
@@ -213,5 +177,20 @@ h1 {
     transform: rotate(360deg);
   }
 }
+</style>
 
+<style lang="scss">
+.el-dialog__wrapper {
+  cursor: default;
+
+  .el-dialog {
+    .el-dialog__header {
+      display: none !important;
+    }
+
+    .el-dialog__body {
+      // padding: 0 !important;
+    }
+  }
+}
 </style>
