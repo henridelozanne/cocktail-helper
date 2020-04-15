@@ -5,7 +5,7 @@
       </div>
     </div>
     <div v-images-loaded:on.progress="imageProgress" class="img-ctn">
-      <img :src="mainResult.strDrinkThumb" alt="" :class="{ 'img-hovered': hovered }"
+      <img :src="mainResult.strDrinkThumb" :class="{ 'img-hovered': hovered }"
        @click="launchCocktailModal">
     </div>
     <h1 class="cocktail-title font-bold text-white p-3"
@@ -75,15 +75,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.text-hovered {
-  font-size: 30px;
-  text-shadow: 1px 2px rgb(216, 109, 146);
-}
-
-.img-hovered {
-  filter: brightness(1.05);
-}
-
 .cocktail-container {
   cursor: pointer;
   width: 250px;
@@ -98,8 +89,7 @@ export default {
   max-height: 60px;
   line-height: 40px;
   text-overflow: ellipsis;
-  color: black;
-  text-shadow: 1px 2px rgb(109, 165, 216);
+  color: rgb(57, 57, 57);
 }
 
 .img-ctn {
@@ -190,12 +180,18 @@ export default {
   cursor: default;
 
   .el-dialog {
+    width: 70% !important;
+
     .el-dialog__header {
       display: none !important;
     }
 
     .el-dialog__body {
       // padding: 0 !important;
+    }
+
+    .el-dialog__footer {
+      display: none !important;
     }
   }
 }

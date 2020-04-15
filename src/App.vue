@@ -102,6 +102,7 @@ export default {
   height: 100%;
   display: flex;
   flex-flow: column;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .search-bar {
