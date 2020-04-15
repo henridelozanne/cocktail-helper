@@ -110,8 +110,8 @@ export default {
 }
 
 .results-ctn {
-  /* background-image: linear-gradient(to right, #6e7880 0%, #404749 100%); */
-  background-image: radial-gradient(circle at 0, #6e7880 0, #404749 100%);
+  background: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);
+  background-blend-mode: normal,color-burn;
   flex-grow: 1;
   display: flex;
   flex-wrap: wrap;

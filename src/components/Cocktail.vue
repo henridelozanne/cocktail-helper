@@ -4,11 +4,11 @@
       <div class="loader">
       </div>
     </div>
-    <div v-images-loaded:on.progress="imageProgress">
+    <div v-images-loaded:on.progress="imageProgress" class="img-ctn">
       <img :src="mainResult.strDrinkThumb" alt="" :class="{ 'img-hovered': hovered }"
        @click="launchCocktailModal">
     </div>
-    <h1 class="cocktail-title font-bold text-white bg-gray-800 p-3"
+    <h1 class="cocktail-title font-bold text-white p-3"
         :class="{ 'text-hovered': hovered }"
         @click="launchCocktailModal">
         {{ mainResult.strDrink }}
@@ -88,16 +88,22 @@ export default {
   cursor: pointer;
   width: 250px;
   margin: 30px;
-  box-shadow: 2px 5px 7px rgba(0, 0, 0, .5);
-  border-radius: 10px;
+  box-shadow: 2px 5px 7px rgba(0, 0, 0, .2);
+  border-radius: 5px;
   overflow: hidden;
+  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
 
-h1 {
+.cocktail-title {
   max-height: 60px;
   line-height: 40px;
   text-overflow: ellipsis;
+  color: black;
   text-shadow: 1px 2px rgb(109, 165, 216);
+}
+
+.img-ctn {
+  padding: 10px 10px 0;
 }
 
 .loading-ctn {
