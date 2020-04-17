@@ -1,16 +1,16 @@
 <template>
     <div class="modal-content">
         <div class="main-image-ctn">
-            <img class="modal-img" :src="mainResult.strDrinkThumb" alt="cocktail-img">
+            <img class="modal-img" :src="detailedCocktail.strDrinkThumb" alt="cocktail-img">
         </div>
         <div class="description">
             <h1 class="cocktail-title text-center">
-                {{ mainResult.strDrink }}
+                {{ detailedCocktail.strDrink }}
             </h1>
             <div class="description-main">
-                <span v-if="mainResult.more.strGlass" class="glass-ctn">
+                <span v-if="glass" class="glass-ctn">
                     <tag tagType="glass"/>
-                    {{ mainResult.more.strGlass}}
+                    {{ glass}}
                 </span>
                 <div v-if="ingredients.length" class="ingredients-ctn">
                     <tag tagType="ingredients"/>
@@ -36,34 +36,47 @@ import Tag from "./Tag.vue";
 export default {
   name: "CocktailModal",
   props: {
-    mainResult: { type: Object }
+    detailedCocktail: { type: Object }
   },
   components: {
     tag: Tag
   },
   data() {
     return {
+      glass: undefined,
       ingredients: [],
       instructions: []
     };
   },
   mounted() {
-    this.processIngredients();
-    this.processInstructions();
+    this.process();
+  },
+  watch: {
+    detailedCocktail() {
+      this.process();
+    },
   },
   methods: {
+    process() {
+      this.processGlass();
+      this.processIngredients();
+      this.processInstructions();
+    },
+    processGlass() {
+      this.glass = this.detailedCocktail.more.strGlass;
+    },
     processIngredients() {
       for (let i = 1; i <= 15; i += 1) {
-        if (this.mainResult.more[`strIngredient${i}`] !== null) {
+        if (this.detailedCocktail.more[`strIngredient${i}`] !== null) {
           this.ingredients.push({
-            name: this.mainResult.more[`strIngredient${i}`],
-            dose: this.mainResult.more[`strMeasure${i}`]
+            name: this.detailedCocktail.more[`strIngredient${i}`],
+            dose: this.detailedCocktail.more[`strMeasure${i}`]
           });
         } else return;
       }
     },
     processInstructions() {
-      this.instructions = this.mainResult.more.strInstructions.split(". ");
+      this.instructions = this.detailedCocktail.more.strInstructions.split(". ");
     }
   }
 };
