@@ -154,6 +154,7 @@ export default {
 .el-select .el-input__inner {
   background: rgb(97, 97, 97);
   border: unset;
+  color: white;
 }
 
 .el-select input {
