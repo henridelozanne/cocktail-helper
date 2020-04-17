@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center cocktail-container" @mouseenter="switchHover(true)" @mouseleave="switchHover(false)">
+  <div class="cocktail-container" @mouseenter="switchHover(true)" @mouseleave="switchHover(false)">
     <div v-if="imageIsLoading" class="loading-ctn">
       <div class="loader">
       </div>
@@ -8,7 +8,7 @@
       <img :src="mainResult.strDrinkThumb" :class="{ 'img-hovered': hovered }"
        @click="launchCocktailModal">
     </div>
-    <h1 class="cocktail-title font-bold text-white p-3"
+    <h1 class="cocktail-title font-bold text-white p-3 text-center"
         :class="{ 'text-hovered': hovered }"
         @click="launchCocktailModal">
         {{ mainResult.strDrink }}
@@ -181,13 +181,15 @@ export default {
 
   .el-dialog {
     width: 70% !important;
+    background: linear-gradient(to bottom, #323232 0%, #3F3F3F 40%, #1C1C1C 150%), linear-gradient(to top, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.25) 200%);
+    background-blend-mode: multiply;
 
     .el-dialog__header {
       display: none !important;
     }
 
     .el-dialog__body {
-      // padding: 0 !important;
+      color: rgb(215, 215, 215);
     }
 
     .el-dialog__footer {
