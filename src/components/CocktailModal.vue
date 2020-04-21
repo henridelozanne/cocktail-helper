@@ -15,8 +15,9 @@
                 <div v-if="ingredients.length" class="ingredients-ctn">
                     <tag tagType="ingredients"/>
                     <ul>
-                        <li v-for="(ingredient, i) in ingredients" :key="`${i}-${ingredient.name}`">{{ ingredient.name }}
-                            <span>({{ ingredient.dose }})</span>
+                        <li v-for="(ingredient, i) in ingredients" :key="`${i}-${ingredient.name}`">
+                            {{ ingredient.name }}
+                            <span v-if="ingredient.dose">({{ ingredient.dose }})</span>
                         </li>
                     </ul>
                 </div>
@@ -78,9 +79,24 @@ export default {
       }
     },
     processInstructions() {
-      this.instructions = this.detailedCocktail.more.strInstructions.split(
+      // Set instructions via ". "
+      const instructions = this.detailedCocktail.more.strInstructions.split(
         ". "
       );
+      const processedInstructions = instructions.map((instruction, i) => {
+        // Remove empty instructions
+        if (instruction === '') {
+          instructions.splice(i, 1);
+        }
+        // Capitalize first word
+        let [firstWord] = instruction.split(' ');
+        firstWord = firstWord.charAt(0).toUpperCase() + firstWord.slice(1)
+        const instructionSplitted = instruction.split(' ');
+        instructionSplitted[0] = firstWord;
+        const corrected = instructionSplitted.join(' ');
+        return instruction = corrected;
+      }) 
+      this.instructions = processedInstructions;
     }
   }
 };
@@ -123,7 +139,6 @@ export default {
       margin-top: 10%;
       margin-bottom: auto;
       overflow: scroll;
-      
 
       .glass-ctn {
         margin-bottom: 30px;
