@@ -183,9 +183,11 @@ export default {
 
 .el-dialog__wrapper {
   cursor: default;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .el-dialog {
-    width: 70% !important;
     background: linear-gradient(
         to bottom,
         #323232 0%,
@@ -198,6 +200,8 @@ export default {
         rgba(0, 0, 0, 0.25) 200%
       );
     background-blend-mode: multiply;
+    width: 60%;
+    margin: 0 !important;
 
     .el-dialog__header {
       display: none !important;
@@ -205,6 +209,7 @@ export default {
 
     .el-dialog__body {
       color: rgb(215, 215, 215);
+      word-break: unset !important;
     }
 
     .el-dialog__footer {

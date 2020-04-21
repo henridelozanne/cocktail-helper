@@ -10,7 +10,7 @@
             <div class="description-main">
                 <span v-if="glass" class="glass-ctn">
                     <tag tagType="glass"/>
-                    {{ glass}}
+                    <span>{{ glass }}</span>
                 </span>
                 <div v-if="ingredients.length" class="ingredients-ctn">
                     <tag tagType="ingredients"/>
@@ -22,9 +22,10 @@
                 </div>
                 <div v-if="instructions.length" class="instructions-ctn">
                     <tag tagType="instructions"/>
-                    <ul>
+                    <ol v-if="instructions.length > 1">
                         <li v-for="instruction in instructions" :key="instruction">{{ instruction }}</li>
-                    </ul>
+                    </ol>
+                    <span v-else class="one-step-instruction">{{ instructions[0] }}</span>
                 </div>
             </div>
         </div>
@@ -54,7 +55,7 @@ export default {
   watch: {
     detailedCocktail() {
       this.process();
-    },
+    }
   },
   methods: {
     process() {
@@ -66,6 +67,7 @@ export default {
       this.glass = this.detailedCocktail.more.strGlass;
     },
     processIngredients() {
+      this.ingredients = [];
       for (let i = 1; i <= 15; i += 1) {
         if (this.detailedCocktail.more[`strIngredient${i}`] !== null) {
           this.ingredients.push({
@@ -76,7 +78,9 @@ export default {
       }
     },
     processInstructions() {
-      this.instructions = this.detailedCocktail.more.strInstructions.split(". ");
+      this.instructions = this.detailedCocktail.more.strInstructions.split(
+        ". "
+      );
     }
   }
 };
@@ -85,23 +89,22 @@ export default {
 <style lang="scss" scoped>
 .modal-content {
   display: flex;
-  height: 490px;
 
   .main-image-ctn {
     flex-grow: 3;
     flex-basis: 60%;
-    height: 100%;
+    display: flex;
+    align-items: center;
 
     .modal-img {
-      height: 490px;
+      object-fit: cover;
     }
   }
 
   .description {
     flex-basis: 40%;
     flex-grow: 2;
-    height: 100%;
-    overflow: scroll;
+    min-height: 100%;
     margin-left: 20px;
     display: flex;
     flex-direction: column;
@@ -116,25 +119,51 @@ export default {
       flex-grow: 1;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-evenly;
+      margin-top: 10%;
+      margin-bottom: auto;
+      overflow: scroll;
+      
 
-      .tag {
+      .glass-ctn {
+        margin-bottom: 30px;
         display: flex;
-        background: rgb(218, 218, 218);
+        align-items: center;
 
-        .modal-icon {
-          display: inline;
-          height: 20px;
-          fill: #606266;
+        span {
+          margin-left: 10px;
         }
       }
 
-      .glass-ctn {
-        margin-bottom: 20px;
+      .ingredients-ctn {
+        margin-bottom: 30px;
+
+        ul {
+          margin-top: 10px;
+          list-style-type: disc !important;
+          margin-left: 20px;
+
+          li:not(:last-of-type) {
+            margin-bottom: 5px;
+          }
+        }
       }
 
-      .ingredients-ctn {
-        margin-bottom: 20px;
+      .instructions-ctn {
+        ol {
+          margin-top: 10px;
+          list-style-type: decimal !important;
+          margin-left: 20px;
+
+          li:not(:last-of-type) {
+            margin-bottom: 5px;
+          }
+        }
+
+        .one-step-instruction {
+          display: block;
+          margin-top: 10px;
+        }
       }
     }
   }
