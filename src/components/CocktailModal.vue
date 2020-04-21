@@ -183,4 +183,55 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: 1279px) {
+  .modal-content {
+    flex-direction: column;
+    overflow: hidden;
+    
+    .main-image-ctn {
+      justify-content: center;
+    
+      .modal-img {
+        max-width: 70%;
+      }
+    }
+
+    .description {
+      margin-top: 50px;
+
+      .description-main {
+        margin-top: 4%;
+        height: 200px;
+        justify-content: flex-start;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .modal-content {    
+    .main-image-ctn {    
+      .modal-img {
+        max-width: 85%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .modal-content {    
+    .main-image-ctn {    
+      .modal-img {
+        max-width: 70%;
+      }
+    }
+
+    .description {
+      .description-main {
+        height: 150px;
+      }
+    }
+  }
+}
 </style>

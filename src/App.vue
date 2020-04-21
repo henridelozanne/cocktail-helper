@@ -201,6 +201,7 @@ export default {
       );
     background-blend-mode: multiply;
     width: 60%;
+    max-height: 90%;
     margin: 0 !important;
 
     .el-dialog__header {
@@ -214,6 +215,12 @@ export default {
 
     .el-dialog__footer {
       display: none !important;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .el-dialog {    
+      width: 90%;
     }
   }
 }
