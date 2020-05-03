@@ -4,7 +4,7 @@
             <img class="modal-img" :src="detailedCocktail.strDrinkThumb" alt="cocktail-img">
         </div>
         <div class="description">
-            <h1 class="cocktail-title text-center">
+            <h1 class="cocktail-title-modal text-center">
                 {{ detailedCocktail.strDrink }}
             </h1>
             <div class="description-main">
@@ -34,11 +34,15 @@
 </template>
 
 <script>
+import gsap from "gsap";
+let masterTL = gsap.timeline();
 import Tag from "./Tag.vue";
+
 export default {
   name: "CocktailModal",
   props: {
-    detailedCocktail: { type: Object }
+    detailedCocktail: { type: Object },
+    showDetails: { type: Boolean },
   },
   components: {
     tag: Tag
@@ -56,13 +60,67 @@ export default {
   watch: {
     detailedCocktail() {
       this.process();
-    }
+    },
+    showDetails() {
+      if (!this.showDetails) {
+        this.imgTLOut();
+      } else {
+        this.imgTLIn();
+      }
+    },
   },
   methods: {
+    animate() {
+      masterTL.add(this.imgTLIn());
+      masterTL.play();
+    },
+    imgTLIn() {
+      let tl = gsap.timeline({ delay: 0.2 });
+      tl.fromTo(".modal-img", {
+        opacity: 0,
+      }, {
+        opacity: 1,
+        ease: "power2.out",
+        duration: 1,
+      });
+      tl.fromTo('.cocktail-title-modal', {
+        opacity: 0,
+      }, {
+        opacity: 1,
+        duration: 1,
+      }, '<0.3');
+      tl.fromTo(".description-main", {
+        opacity: 0,
+      }, {
+        opacity: 1,
+        duration: 1,
+      }, '<');
+      return tl;
+    },
+    imgTLOut() {
+      let tl = gsap.timeline();
+      tl.fromTo(".modal-img", {
+        opacity: 1,
+      }, {
+        opacity: 0,
+        ease: "power2.out",
+        duration: 0.1,
+      });
+      tl.to(".description-main", {
+        opacity: 0,
+        duration: 0.4,
+      }, '<');
+      tl.to('.cocktail-title-modal', {
+        opacity: 0,
+        duration: 0.7,
+      }, '<');
+      return tl;
+    },
     process() {
       this.processGlass();
       this.processIngredients();
       this.processInstructions();
+      this.animate();
     },
     processGlass() {
       this.glass = this.detailedCocktail.more.strGlass;
@@ -114,6 +172,7 @@ export default {
 
     .modal-img {
       object-fit: cover;
+      opacity: 0;
     }
   }
 
@@ -125,7 +184,7 @@ export default {
     display: flex;
     flex-direction: column;
 
-    .cocktail-title {
+    .cocktail-title-modal {
       font-family: "Vast Shadow", cursive;
       font-size: 27px;
       color: rgb(244, 244, 244);

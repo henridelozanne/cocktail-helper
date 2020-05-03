@@ -12,7 +12,7 @@
     </div>
     <el-dialog :visible.sync="showDetails"
                @close="hideModal">
-      <cocktail-modal :detailedCocktail="detailedCocktail"/>
+      <cocktail-modal :detailedCocktail="detailedCocktail" :showDetails="showDetails"/>
     </el-dialog>
     <app-footer @newLetterSearch="searchByLetter" />
   </div>
@@ -171,6 +171,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  align-items: center;
   margin-top: 80px;
   overflow: scroll;
   padding: 20px;
