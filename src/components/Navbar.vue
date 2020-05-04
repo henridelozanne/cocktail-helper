@@ -167,10 +167,11 @@ export default {
 
 .app-title {
   height: 100%;
+  fill: #b0c9c9 !important;
 }
 </style>
 
-<style scoped>
+<style scoped lang="scss">
 .navbar {
   display: flex;
   justify-content: space-around;

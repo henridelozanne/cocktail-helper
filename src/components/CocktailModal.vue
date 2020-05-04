@@ -173,6 +173,7 @@ export default {
     .modal-img {
       object-fit: cover;
       opacity: 0;
+      border: 2px solid rgba(201, 197, 197, 0.8);
     }
   }
 

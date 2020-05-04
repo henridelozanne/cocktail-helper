@@ -158,15 +158,8 @@ export default {
 }
 
 .results-ctn {
-  background: linear-gradient(to bottom, #d5dee7 0%, #e8ebf2 50%, #e2e7ed 100%),
-    linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.02) 50%,
-      rgba(255, 255, 255, 0.02) 61%,
-      rgba(0, 0, 0, 0.02) 73%
-    ),
-    linear-gradient(33deg, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
-  background-blend-mode: normal, color-burn;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898; 
+  background-blend-mode: multiply,multiply;
   flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
@@ -187,6 +180,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgba(0, 0, 0, 0.7);
 
   .el-dialog {
     background: linear-gradient(
@@ -204,6 +198,7 @@ export default {
     width: 60%;
     max-height: 90%;
     margin: 0 !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 
     .el-dialog__header {
       display: none !important;
