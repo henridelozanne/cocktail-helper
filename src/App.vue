@@ -1,14 +1,22 @@
 <template>
   <div class="app-wrapper">
     <app-navbar @searchCocktail="searchCocktails"
-                @searchName="searchByName" />
-    <div class="results-ctn">
-      <app-no-result v-if="noResultIsVisible" />
-      <app-cocktail v-else v-for="result in results"
-                    ref="cocktail-item"
-                    :cocktail="result"
-                    :key="result.strDrink"
-                    @launchModal="launchModal"/>
+                @searchName="searchByName"
+                @websiteTitleClicked="websiteTitleClicked" />
+    <div class="main-ctn">
+      <div class="home-blocks">
+        <app-home-block class="recommended" :detailedCocktail="recommendedCocktail" v-if="recommendedIsReady" :recommended="true"></app-home-block>
+        <app-home-block class="random" :detailedCocktail="randomCocktail" v-if="randomCocktailIsReady"></app-home-block>
+      </div>
+      <p v-if="true" class="results-for">Results for > {{ resultsFor }}</p>
+      <div class="results-ctn">
+        <app-no-result v-if="noResultIsVisible" />
+        <app-cocktail v-else v-for="result in results"
+                      ref="cocktail-item"
+                      :cocktail="result"
+                      :key="result.strDrink"
+                      @launchModal="launchModal"/>
+      </div>
     </div>
     <el-dialog :visible.sync="showDetails"
                @close="hideModal">
@@ -28,6 +36,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import NoResult from "./components/NoResult";
 import CocktailModal from "./components/CocktailModal.vue";
+import HomeBlock from "./components/HomeBlock.vue";
 
 export default {
   name: "App",
@@ -36,12 +45,19 @@ export default {
     "app-navbar": Navbar,
     "app-footer": Footer,
     "app-no-result": NoResult,
+    "app-home-block": HomeBlock,
     "el-button": Button,
     "el-dialog": Dialog,
     "cocktail-modal": CocktailModal,
   },
   mounted() {
-    this.searchByLetter("a");
+    this.searchCocktails({ type: 'c', filter: 'Cocktail' });
+    gsap.from('.results-for', {
+      opacity: 0,
+      duration: 1,
+    });
+    this.processRecommendedCocktail();
+    this.processRandom();
   },
   data() {
     return {
@@ -49,15 +65,44 @@ export default {
       noResultIsVisible: false,
       showDetails: false,
       detailedCocktail: {},
+      resultsFor: 'Popular searches',
+      showHomeBlocks: true,
+      recommendedCocktail: undefined,
+      recommendedIsReady: false,
+      randomCocktail: undefined,
+      randomCocktailIsReady: false,
     };
   },
   methods: {
+    processRandom() {
+      axios
+        .get('https://www.thecocktaildb.com/api/json/v1/1/random.php')
+        .then(response => {
+          this.randomCocktail = response.data.drinks[0];
+          this.randomCocktailIsReady = true;
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    processRecommendedCocktail() {
+      axios
+        .get('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=moscow')
+        .then(response => {
+          this.recommendedCocktail = response.data.drinks[0];
+          this.recommendedIsReady = true;
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    websiteTitleClicked() {
+      this.searchCocktails({ type: 'c', filter: 'Cocktail' });
+    },
     animateResult() {
       gsap.to(".cocktail-ctn", {
         duration: .5,
         opacity: 1,
-        scale: 1,
-        y: 0,
         ease: "power1",
         stagger: {
           each: 0.05,
@@ -99,6 +144,7 @@ export default {
         .catch(err => {
           console.error(err);
         });
+        this.resultsFor = name;
     },
     searchByLetter(letter) {
       // Reset
@@ -114,11 +160,14 @@ export default {
             setTimeout(() => {
               this.animateResult();
             }, 400);
-          } else this.noResultIsVisible = true;
+          } else {
+            this.noResultIsVisible = true;
+            }
         })
         .catch(err => {
           console.error(err);
         });
+        this.resultsFor = letter.toUpperCase();
     },
     searchCocktails(payload) {
       // Reset
@@ -139,6 +188,7 @@ export default {
         .catch(err => {
           console.error(err);
         });
+        this.resultsFor = payload.filter;
     }
   }
 };
@@ -157,22 +207,58 @@ export default {
   min-width: 200px;
 }
 
-.results-ctn {
+.main-ctn {
   background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898; 
   background-blend-mode: multiply,multiply;
+  padding: 20px 100px;
   flex-grow: 1;
+  overflow: scroll;
+  margin-top: 110px;
+}
+
+@media screen and (max-width: 1200px) {
+  .main-ctn {
+    padding: 20px 20px;
+  }
+}
+
+.results-for {
+  margin: 20px 30px 25px;
+  padding-bottom: 7px;
+  color: white;
+  border-bottom: 1px solid white;
+  font-size: 0.9em;
+}
+
+.results-ctn {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  margin-top: 80px;
-  overflow: scroll;
-  padding: 20px;
+  // margin-top: 110px;
+  
+}
+
+@media screen and (max-width: 1200px) {
+  .results-ctn {
+    // padding: 20px 20px;
+  }
 }
 
 .cocktail-ctn {
   opacity: 0;
-  transform: scale(.5) translateY(200px);
+  // transform: scale(.5) translateY(200px);
+}
+
+.home-blocks {
+  height: 500px;
+  display: flex;
+  justify-content: space-around;
+  margin: 30px 0;
+
+  >div {
+    width: 45%;
+  }
 }
 
 .el-dialog__wrapper {
@@ -196,7 +282,7 @@ export default {
       );
     background-blend-mode: multiply;
     width: 60%;
-    max-height: 90%;
+    max-width: 840px;
     margin: 0 !important;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 

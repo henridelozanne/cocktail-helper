@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="no-results">
     No results, try something else
   </div>
 </template>
@@ -11,5 +11,11 @@ export default {
 </script>
 
 <style>
-
+.no-results {
+  color: white;
+  font-size: 0.9em;
+  margin-left: 30px;
+  justify-self: center;
+  align-self: center;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <app-title class="app-title"></app-title>
+    <app-title class="app-title" @click="callWebsiteTitleClick" @websiteTitleClicked="callWebsiteTitleClick"></app-title>
     <div class="selects">
       <el-select v-model="ingredient" class="ingredient-select" placeholder="Ingredients" @change="callSearchCocktails('i')">
         <el-option
@@ -35,7 +35,7 @@
         </el-option>
       </el-select>
     </div>
-    <input class="search-bar" placeholder="Search by name" type="text" v-model="searchName" @keyup.enter="callSearchName">
+    <input class="search-bar" placeholder="Search by name" type="text" v-model="searchName" @input="callSearchName" @keyup.enter="callSearchName">
     <svg class="menu-burger" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
   </div>
 </template>
@@ -71,6 +71,12 @@ export default {
     };
   },
   methods: {
+    resetSelects() {
+      this.alcoholic = '';
+      this.category = '';
+      this.glass = '';
+      this.ingredient = '';
+    },
     callSearchCocktails(type) {
       let filter;
       if (type === 'i') {
@@ -102,6 +108,11 @@ export default {
     },
     callSearchName() {
       this.$emit('searchName', this.searchName);
+      this.resetSelects();
+    },
+    callWebsiteTitleClick() {
+      this.$emit('websiteTitleClicked');
+      this.resetSelects();
     },
     fillOptions() {
       const options = ['i', 'c', 'g', 'a'];
@@ -164,11 +175,6 @@ export default {
 .el-select__caret {
   line-height: 24px;
 }
-
-.app-title {
-  height: 100%;
-  fill: #b0c9c9 !important;
-}
 </style>
 
 <style scoped lang="scss">
@@ -176,7 +182,7 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 80px;
+  height: 110px;
   background: linear-gradient(to bottom, rgb(38, 38, 38) 0%, rgb(60, 60, 60) 40%, rgb(14, 14, 14) 150%), linear-gradient(to bottom, rgba(60, 60, 60, 0.4) 0%, rgba(55, 55, 55, 0.25) 200%);
   background-blend-mode: multiply;
   box-shadow: 0 3px 7px rgba(0, 0, 0, .5);

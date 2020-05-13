@@ -186,8 +186,12 @@ export default {
     flex-direction: column;
 
     .cocktail-title-modal {
-      font-family: "Vast Shadow", cursive;
-      font-size: 27px;
+      letter-spacing: 5px;
+      background-image: linear-gradient( 243deg,  rgb(254, 253, 237) 13.4%, rgb(255, 235, 235) 82.1% );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: 'Poppins', sans-serif;
+      font-size: 30px;
       color: rgb(244, 244, 244);
     }
 
