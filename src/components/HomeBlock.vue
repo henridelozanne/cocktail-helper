@@ -1,8 +1,10 @@
 <template>
   <div class="home-block">
-    <h1 class="home-block-title">{{ recommended ? 'Month\'s selection' : 'Random cocktail'}}</h1>
-      <div class="home-block-img" :style="`background-image: url('${detailedCocktail.strDrinkThumb}')`">
-        <div class="cocktail-name">{{ detailedCocktail.strDrink }}</div>
+    <h1 class="home-block-title">{{ recommended ? 'Cocktail of the week' : 'Random cocktail'}}</h1>
+      <div class="block-inner" :class="recommended ? 'green-background' : 'pink-background'" @click="emitLaunchModal">
+        <div class="home-block-img" :style="`background-image: url('${detailedCocktail.strDrinkThumb}')`">
+          <div class="cocktail-name">{{ detailedCocktail.strDrink }}</div>
+        </div>
       </div>
   </div>
 </template>
@@ -30,6 +32,9 @@ export default {
     };
   },
   methods: {
+    emitLaunchModal() {
+      this.$emit('launchModal', this.detailedCocktail);
+    },
     process() {
       this.processIngredients();
     },
@@ -56,6 +61,26 @@ export default {
   align-items: center;
 }
 
+.block-inner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 1px 2px 9px rgba(80, 80, 80, 0.7);
+
+  &:hover {
+    filter: brightness(108%);
+  }
+}
+
+.pink-background {
+  background: rgba(195, 190, 240, 0.4);
+}
+
+.green-background {
+  background: rgba(154, 224, 215, 0.4);
+}
+
 .home-block-title {
   font-size: 24px;
   color: white;
@@ -72,15 +97,15 @@ export default {
   background-repeat: no-repeat;
   background-position: top;
   position: relative;
-  height: 420px;
-  width: 420px;
+  height: 350px;
+  width: 350px;
 
   .cocktail-name {
     position: absolute;
     width: 100%;
     left: 0;
     bottom: 10%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 20px 5px;
   }

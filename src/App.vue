@@ -4,9 +4,11 @@
                 @searchName="searchByName"
                 @websiteTitleClicked="websiteTitleClicked" />
     <div class="main-ctn">
-      <div class="home-blocks">
-        <app-home-block class="recommended" :detailedCocktail="recommendedCocktail" v-if="recommendedIsReady" :recommended="true"></app-home-block>
-        <app-home-block class="random" :detailedCocktail="randomCocktail" v-if="randomCocktailIsReady"></app-home-block>
+      <div class="home-blocks" v-if="homeBlocksVisible">
+        <app-home-block class="recommended" :detailedCocktail="recommendedCocktail" v-if="recommendedIsReady" :recommended="true"
+                        @launchModal="launchModal"></app-home-block>
+        <app-home-block class="random" :detailedCocktail="randomCocktail" v-if="randomCocktailIsReady"
+                        @launchModal="launchModal"></app-home-block>
       </div>
       <p v-if="true" class="results-for">Results for > {{ resultsFor }}</p>
       <div class="results-ctn">
@@ -18,11 +20,11 @@
                       @launchModal="launchModal"/>
       </div>
     </div>
+    <app-footer @newLetterSearch="searchByLetter" />
     <el-dialog :visible.sync="showDetails"
                @close="hideModal">
       <cocktail-modal :detailedCocktail="detailedCocktail" :showDetails="showDetails"/>
     </el-dialog>
-    <app-footer @newLetterSearch="searchByLetter" />
   </div>
 </template>
 
@@ -52,6 +54,7 @@ export default {
   },
   mounted() {
     this.searchCocktails({ type: 'c', filter: 'Cocktail' });
+    this.homeBlocksVisible = true;
     gsap.from('.results-for', {
       opacity: 0,
       duration: 1,
@@ -65,6 +68,7 @@ export default {
       noResultIsVisible: false,
       showDetails: false,
       detailedCocktail: {},
+      homeBlocksVisible: true,
       resultsFor: 'Popular searches',
       showHomeBlocks: true,
       recommendedCocktail: undefined,
@@ -98,6 +102,7 @@ export default {
     },
     websiteTitleClicked() {
       this.searchCocktails({ type: 'c', filter: 'Cocktail' });
+      this.homeBlocksVisible = true;
     },
     animateResult() {
       gsap.to(".cocktail-ctn", {
@@ -136,6 +141,7 @@ export default {
           if (response.data.drinks !== null) {
             this.noResultIsVisible = false;
             this.results = response.data.drinks;
+            this.homeBlocksVisible = false;
             setTimeout(() => {
               this.animateResult();
             }, 400);
@@ -143,6 +149,7 @@ export default {
         })
         .catch(err => {
           console.error(err);
+          this.homeBlocksVisible = false;
         });
         this.resultsFor = name;
     },
@@ -170,6 +177,7 @@ export default {
         this.resultsFor = letter.toUpperCase();
     },
     searchCocktails(payload) {
+      this.homeBlocksVisible = false;
       // Reset
       this.results = [];
       axios
@@ -211,7 +219,7 @@ export default {
   background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898; 
   background-blend-mode: multiply,multiply;
   padding: 20px 100px;
-  flex-grow: 1;
+  flex: 1 0 auto;
   overflow: scroll;
   margin-top: 110px;
 }
@@ -223,11 +231,23 @@ export default {
 }
 
 .results-for {
-  margin: 20px 30px 25px;
+  margin: 60px 30px 25px;
   padding-bottom: 7px;
   color: white;
   border-bottom: 1px solid white;
   font-size: 0.9em;
+}
+
+@media screen and (max-width: 1200px) {
+  .results-for {
+    margin: 60px 30px 25px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .results-for {
+    margin: 60px 0 25px;
+  }
 }
 
 .results-ctn {
@@ -239,9 +259,9 @@ export default {
   
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 879px) {
   .results-ctn {
-    // padding: 20px 20px;
+    justify-content: space-around;
   }
 }
 
@@ -251,13 +271,34 @@ export default {
 }
 
 .home-blocks {
-  height: 500px;
   display: flex;
-  justify-content: space-around;
-  margin: 30px 0;
+  justify-content: space-between;
+  margin: 30px;
 
   >div {
-    width: 45%;
+    width: 47%;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .home-blocks {
+    margin: 30px 0;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .random {
+    margin-top: 50px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .home-blocks {
+    flex-direction: column;
+
+    >div {
+      width: 100%;
+    }
   }
 }
 

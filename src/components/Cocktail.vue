@@ -81,7 +81,7 @@ export default {
   cursor: pointer;
   width: 220px;
   margin: 30px;
-  box-shadow: 1px 2px 9px rgba(110, 110, 110, 0.7);
+  box-shadow: 1px 2px 9px rgba(80, 80, 80, 0.7);
   border-radius: 5px;
   overflow: hidden;
   background-image: linear-gradient(to top, #bfc4cb 0%, #d6d9e1 100%);
