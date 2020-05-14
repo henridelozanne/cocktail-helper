@@ -45,7 +45,7 @@
           <el-button @click="callSearchName">Search</el-button>
         </div>
       </div>
-      <div class="selects">
+      <div class="selects" :class="{'safari-selects': isSafari}">
         <h2>Search by:</h2>
         <el-select v-model="ingredient" class="ingredient-select" placeholder="Ingredients" @change="callSearchCocktails('i')">
           <el-option
