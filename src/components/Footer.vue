@@ -11,6 +11,7 @@
             <div class="letter" v-for="letter in bottomLetters" :key="letter" @click="searchByLetter(letter)">{{ letter | capitalize }}</div>
         </div>
     </div>
+    <span class="creator">Website created by <a href="https://henri-delozanne.com" target="_blank">Henri Delozanne</a></span>
   </div>
 </template>
 
@@ -47,14 +48,17 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .footer {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
   padding: 20px 0;
   width: 100%;
   background: linear-gradient(to bottom, #323232 0%, #3F3F3F 40%, #1C1C1C 150%), linear-gradient(to top, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.25) 200%);
   background-blend-mode: multiply;
+  flex-direction: column;
 }
 
 .letters-ctn {
@@ -109,5 +113,30 @@ export default {
     .letters-sm-screen {
       display: flex;
     }
+}
+
+
+.creator {
+  color: rgb(196, 196, 196);
+  font-size: 0.8em;
+  margin-top: 15px;
+
+  a {
+    color: white;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .letters-ctn {
+    display: none;
+  }
+
+  .letters-sm-screen {
+    display: none;
+  }
+
+  .creator {
+    margin-top: 0;
+  }
 }
 </style>
