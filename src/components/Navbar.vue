@@ -103,14 +103,8 @@ export default {
     'app-title': Title,
   },
   created() {
-    var ua = navigator.userAgent.toLowerCase(); 
-    if (ua.indexOf('safari') != -1) { 
-      if (ua.indexOf('chrome') > -1) {
-        //
-      } else {
-        this.isSafari = true;
-      }
-    }
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    if (isSafari) this.isSafari = true;
   },
   mounted() {
     this.fillOptions();

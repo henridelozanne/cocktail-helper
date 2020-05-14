@@ -24,16 +24,8 @@ export default {
     };
   },
   created() {
-    var ua = navigator.userAgent.toLowerCase(); 
-    if (ua.indexOf('safari') != -1) { 
-      if (ua.indexOf('chrome') > -1) {
-        //
-      } else {
-        console.log('It seems like you are using Safari, for a better web experience download and use any other browser');
-        alert('It seems like you are using Safari, for a better web experience download and use any other browser');
-        this.isSafari = true;
-      }
-    }
+    var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    if (isSafari) this.isSafari = true;
   },
   mounted() {
     gsap.from('.logo-letter', {
@@ -60,6 +52,12 @@ h1 {
 
   span {
     display: inline-block;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  h1 {
+    font-size: 30px;
   }
 }
 
