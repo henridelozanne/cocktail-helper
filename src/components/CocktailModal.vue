@@ -294,6 +294,7 @@ export default {
     .description {
       .description-main {
         height: 150px;
+        padding-top: 30px;
       }
     }
   }
