@@ -41,7 +41,8 @@ export default {
     processIngredients() {
       this.ingredients = [];
       for (let i = 1; i <= 15; i += 1) {
-        if (this.detailedCocktail[`strIngredient${i}`] !== null) {
+        if (this.detailedCocktail[`strIngredient${i}`] !== null
+            && this.detailedCocktail.more[`strIngredient${i}`] !== '') {
           this.ingredients.push({
             name: this.detailedCocktail[`strIngredient${i}`],
             dose: this.detailedCocktail[`strMeasure${i}`]
