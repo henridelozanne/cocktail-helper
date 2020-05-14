@@ -36,22 +36,70 @@
       </el-select>
     </div>
     <input class="search-bar" placeholder="Search by name" type="text" v-model="searchName" @input="callSearchName" @keyup.enter="callSearchName">
-    <svg class="menu-burger" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
+    <svg class="menu-burger" xmlns="http://www.w3.org/2000/svg" @click="showMobileMenu" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
+    <div v-if="mobileMenuIsVisible" class="mobile-menu-ctn">
+      <div class="search-by-name-ctn">
+        <h2>Search by name:</h2>
+        <div class="search-input-ctn">
+          <input class="search-bar" placeholder="ex: B-52" type="text" v-model="searchName">
+          <el-button @click="callSearchName">Search</el-button>
+        </div>
+      </div>
+      <div class="selects">
+        <h2>Search by:</h2>
+        <el-select v-model="ingredient" class="ingredient-select" placeholder="Ingredients" @change="callSearchCocktails('i')">
+          <el-option
+            v-for="item in ingredientOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-select v-model="category"  placeholder="Categories" @change="callSearchCocktails('c')">
+          <el-option
+            v-for="item in categoryOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-select v-model="glass"  placeholder="Glasses" class="glass-select" @change="callSearchCocktails('g')">
+          <el-option
+            v-for="item in glassOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-select v-model="alcoholic"  placeholder="Alcoholic" @change="callSearchCocktails('a')">
+          <el-option
+            v-for="item in alcoholicOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </div>
+      <h2 class="week-cocktail" @click="mobileRecommended">Cocktail of the week</h2>
+      <h2 class="random" @click="mobileRandom">Random cocktail</h2>
+      <!-- <p >close</p> -->
+      <svg @click="hideMobileMenu" class="close-modal-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"><path fill="rgb(248, 248, 248)" d="M0 0h24v24H0z"/><path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/></svg>
+    </div>
   </div>
 </template>
 
 <script>
-import { Select, Option } from 'element-ui';
+import { Select, Option, Button } from 'element-ui';
 import axios from 'axios';
 
 import Title from './WebsiteTitle.vue';
 
 export default {
   name: 'Navbar',
-  props: {},
   components: {
     'el-select': Select,
     'el-option': Option,
+    'el-button': Button,
     'app-title': Title,
   },
   created() {
@@ -79,9 +127,24 @@ export default {
       ingredientOptions: [],
       isSafari: false,
       searchName: undefined,
+      mobileMenuIsVisible: false,
     };
   },
   methods: {
+    mobileRecommended() {
+      this.$emit('mobileRecommended');
+      this.hideMobileMenu();
+    },
+    mobileRandom() {
+      this.$emit('mobileRandom');
+      this.hideMobileMenu();
+    },
+    showMobileMenu() {
+      this.mobileMenuIsVisible = true;
+    },
+    hideMobileMenu() {
+      this.mobileMenuIsVisible = false;
+    },
     resetSelects() {
       this.alcoholic = '';
       this.category = '';
@@ -116,10 +179,16 @@ export default {
         this.searchName = '';
       }
       this.$emit('searchCocktail', { type, filter });
+      if (this.mobileMenuIsVisible) {
+        this.mobileMenuIsVisible = false;
+      }
     },
     callSearchName() {
       this.$emit('searchName', this.searchName);
       this.resetSelects();
+      if (this.mobileMenuIsVisible) {
+        this.mobileMenuIsVisible = false;
+      }
     },
     callWebsiteTitleClick() {
       this.$emit('websiteTitleClicked');
@@ -192,6 +261,71 @@ export default {
 .el-select__caret {
   line-height: 24px;
 }
+
+.mobile-menu-ctn {
+  background: linear-gradient(to bottom, rgb(38, 38, 38) 0%, rgb(60, 60, 60) 40%, rgb(14, 14, 14) 150%), linear-gradient(to bottom, rgba(60, 60, 60, 0.4) 0%, rgba(55, 55, 55, 0.25) 200%);
+  background-blend-mode: multiply;
+  color: rgb(235, 235, 235);
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 50px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  .selects {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+      margin-bottom: 15px;
+    }
+    
+    .el-select {
+      min-width: 275px;
+    }
+  }
+
+  .search-by-name-ctn {
+    text-align: center;
+    
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    .search-input-ctn {
+      display: flex;
+      max-width: 275px;
+
+      input {
+       margin-right: 10px;
+       max-width: 180px;
+       min-width: unset;
+       color: black;
+      }
+    }
+  }
+
+  .week-cocktail {
+    cursor: pointer;
+  }
+
+  .random {
+    cursor: pointer;
+  }
+
+  .close-modal-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+  }
+}
 </style>
 
 <style scoped lang="scss">
@@ -237,11 +371,11 @@ export default {
 }
 
 @media screen and (max-width: 1023px) {
-    .selects {
+    .navbar > .selects {
       display: none;
     }
 
-    .search-bar {
+    .navbar > .search-bar {
       display: none;
     }
 

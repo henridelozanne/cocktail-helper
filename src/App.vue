@@ -2,7 +2,9 @@
   <div class="app-wrapper">
     <app-navbar @searchCocktail="searchCocktails"
                 @searchName="searchByName"
-                @websiteTitleClicked="websiteTitleClicked" />
+                @websiteTitleClicked="websiteTitleClicked"
+                @mobileRecommended="mobileRecommended"
+                @mobileRandom="mobileRandom" />
     <div class="main-ctn">
       <div class="home-blocks" v-if="homeBlocksVisible">
         <app-home-block class="recommended" :detailedCocktail="recommendedCocktail" v-if="recommendedIsReady" :recommended="true"
@@ -78,6 +80,12 @@ export default {
     };
   },
   methods: {
+    mobileRecommended() {
+      this.launchModal(this.recommendedCocktail);
+    },
+    mobileRandom() {
+      this.launchModal(this.randomCocktail);
+    },
     processRandom() {
       axios
         .get('https://www.thecocktaildb.com/api/json/v1/1/random.php')
@@ -135,13 +143,13 @@ export default {
     searchByName(name) {
       // Reset
       this.results = [];
+      this.homeBlocksVisible = false;
       axios
         .get(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`)
         .then(response => {
           if (response.data.drinks !== null) {
             this.noResultIsVisible = false;
             this.results = response.data.drinks;
-            this.homeBlocksVisible = false;
             setTimeout(() => {
               this.animateResult();
             }, 400);
@@ -149,7 +157,6 @@ export default {
         })
         .catch(err => {
           console.error(err);
-          this.homeBlocksVisible = false;
         });
         this.resultsFor = name;
     },
