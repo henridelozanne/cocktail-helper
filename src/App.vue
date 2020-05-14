@@ -156,6 +156,7 @@ export default {
     searchByLetter(letter) {
       // Reset
       this.results = [];
+      this.homeBlocksVisible = false;
       axios
         .get(
           `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${letter}`
