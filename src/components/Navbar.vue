@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <app-title class="app-title" @click="callWebsiteTitleClick" @websiteTitleClicked="callWebsiteTitleClick"></app-title>
-    <div class="selects">
+    <div class="selects" :class="{'safari-selects': isSafari}">
       <el-select v-model="ingredient" class="ingredient-select" placeholder="Ingredients" @change="callSearchCocktails('i')">
         <el-option
           v-for="item in ingredientOptions"
@@ -54,6 +54,16 @@ export default {
     'el-option': Option,
     'app-title': Title,
   },
+  created() {
+    var ua = navigator.userAgent.toLowerCase(); 
+    if (ua.indexOf('safari') != -1) { 
+      if (ua.indexOf('chrome') > -1) {
+        //
+      } else {
+        this.isSafari = true;
+      }
+    }
+  },
   mounted() {
     this.fillOptions();
   },
@@ -67,6 +77,7 @@ export default {
       glassOptions: [],
       ingredient: '',
       ingredientOptions: [],
+      isSafari: false,
       searchName: undefined,
     };
   },
@@ -161,7 +172,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .el-select .el-input__inner {
   background: rgb(97, 97, 97);
   border: unset;
@@ -170,6 +181,12 @@ export default {
 
 .el-select input {
   height: 24px !important;
+}
+
+.safari-selects {
+  .el-select input {
+    height: 31px !important;
+  }
 }
 
 .el-select__caret {
